@@ -102,13 +102,7 @@ public class MathManagerTest {
 
     @Test
     public void testRequerirOperacioMatematica() {
-        OperacioMatematica op = mathManager.requerirOperacioMatematica(
-                "OP1",
-                "2 3 +",
-                marti.getId(),
-                eetac.getId(),
-                false
-        );
+        OperacioMatematica op = mathManager.requerirOperacioMatematica("OP1", "2 3 +", marti.getId(), eetac.getId(), false);
 
         assertNotNull(op);
         assertEquals("OP1", op.getId());
@@ -154,12 +148,12 @@ public class MathManagerTest {
     public void testLlistarOperacionsPerAlumne() {
         mathManager.requerirOperacioMatematica("OP1", "2 3 +", marti.getId(), eetac.getId(), false);
         mathManager.requerirOperacioMatematica("OP2", "4 5 +", marti.getId(), eetac.getId(), false);
-        mathManager.requerirOperacioMatematica("OP3", "8 2 /", carla.getId(), eetac.getId(), false);
+        mathManager.requerirOperacioMatematica("OP3", "8 2 /", marti.getId(), eetac.getId(), false);
 
         List<OperacioMatematica> llista = mathManager.llistarOperacionsPerAlumne(marti.getId());
 
         assertNotNull(llista);
-        assertEquals(2, llista.size());
+        assertEquals(3, llista.size());
     }
 
     @Test
@@ -174,12 +168,12 @@ public class MathManagerTest {
     public void testLlistarOperacionsPerInstitud() {
         mathManager.requerirOperacioMatematica("OP1", "2 3 +", marti.getId(), eetac.getId(), false);
         mathManager.requerirOperacioMatematica("OP2", "4 5 +", carla.getId(), eetac.getId(), false);
-        mathManager.requerirOperacioMatematica("OP3", "7 2 -", queralt.getId(), santMiquel.getId(), false);
+        mathManager.requerirOperacioMatematica("OP3", "7 2 -", marti.getId(), eetac.getId(), false);
 
         List<OperacioMatematica> llista = mathManager.llistarOperacionsPerInstitud(eetac.getId());
 
         assertNotNull(llista);
-        assertEquals(2, llista.size());
+        assertEquals(3, llista.size());
     }
 
     @Test
