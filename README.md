@@ -1,4 +1,4 @@
-Estado Actual del Proyecto:\n
+(Para ver Formato leer en modo code)Estado Actual del Proyecto:\n
     El proyecto esta acabado 100% funciona la Api Rest, puedes hacer consultas y ingresar datos en el servicio Rest.
 Problmas Enconntrados:\n 
     Se han detectado errores en la implementación de los atributos en la función RecepcionOperacion.
