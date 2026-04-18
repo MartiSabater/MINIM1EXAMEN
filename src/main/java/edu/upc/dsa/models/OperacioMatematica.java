@@ -1,6 +1,6 @@
 package edu.upc.dsa.models;
 
-import edu.upc.dsa.util.RandomUtils;
+
 
 public class OperacioMatematica {
 
@@ -13,16 +13,11 @@ public class OperacioMatematica {
     
     static int lastId;
 
-    public OperacioMatematica() {
-        this.setId(RandomUtils.getId());
-    }
-    public OperacioMatematica(String expresioRPN, double resultat, String alumneId, String institutId) {
-        this(null, expresioRPN, resultat, alumneId, institutId);
-    }
 
-    public OperacioMatematica(String id, String expresioRPN, double resultat, String alumneId, String institutId) {
-        this();
-        if (id != null) this.setId(id);
+    public OperacioMatematica(String id, String expresioRPN, double resultat, String alumneId, String institutId, boolean processada) {
+
+        this.setProcessada(processada);
+        this.setId(id);
         this.setExpresioRPN(expresioRPN);
         this.setResultat(resultat);
         this.setAlumneId(alumneId);
@@ -80,7 +75,7 @@ public class OperacioMatematica {
 
     @Override
     public String toString() {
-        return "Track [id="+id+", expresioRPN=" + expresioRPN + ", resultat=" + resultat + ", alumneId=" + alumneId + ", institutId=" + institutId + ", processada=" + processada + ", dataCreacio=" + dataCreacio + ", dataProcessament=" + dataProcessament +"]";
+        return "Track [id="+id+", expresioRPN=" + expresioRPN + ", resultat=" + resultat + ", alumneId=" + alumneId + ", institutId=" + institutId + ", processada=" + processada + "]";
     }
 
 }

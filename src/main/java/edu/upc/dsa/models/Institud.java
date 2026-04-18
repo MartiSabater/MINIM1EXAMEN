@@ -9,18 +9,11 @@ public class Institud {
     
     static int lastId;
 
-    public Institud() {
-        this.setId(RandomUtils.getId());
-    }
     public Institud(String nom) {
-        this(null, nom);
-    }
-
-    public Institud(String id, String nom) {
-        this();
-        if (id != null) this.setId(id);
+        this.setId(RandomUtils.getId());
         this.setNom(nom);
     }
+
 
     public String getId() {
         return this.id;

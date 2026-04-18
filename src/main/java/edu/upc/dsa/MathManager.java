@@ -30,5 +30,7 @@ public interface MathManager {
     //Llista d'instituds ordenats de forma decendentment pel nombre d'operacions procesades
     public List<Map.Entry<String, Integer>> llistarInstituds();
     
+    //Metide per fer tests
+    public void clear();
 
 }

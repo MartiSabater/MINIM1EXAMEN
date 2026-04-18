@@ -18,6 +18,7 @@ public class MathManagerImpl implements MathManager {
     protected List<Institud> instituds;
     protected Queue<OperacioMatematica> operacions;
     protected HashMap<String, Integer> operacionsPerInstitud;
+    protected double resultat;
 
     final static Logger logger = Logger.getLogger(MathManagerImpl.class);
 
@@ -125,7 +126,8 @@ public class MathManagerImpl implements MathManager {
 
         try {
             processada = false;
-            OperacioMatematica operacio = new OperacioMatematica(id, expresioRPN, alumneId, institudId, processada);
+            resultat = 0;
+            OperacioMatematica operacio = new OperacioMatematica(id, expresioRPN, resultat, alumneId, institudId, processada);
             this.operacions.add(operacio);
 
             logger.info("Fi requerirOperacioMatematica(). operacio afegida amb id=" + operacio.getId());
@@ -149,7 +151,7 @@ public class MathManagerImpl implements MathManager {
 
             OperacioMatematica operacio = this.operacions.poll();
             ReversePolishNotation rpn = new ReversePolishNotationImpl();
-            double resultat = rpn.FerOperacio(operacio.getExpresioRPN());
+            resultat = rpn.FerOperacio(operacio.getExpresioRPN());
 
             String institudId = operacio.getInstitutId();
 
@@ -227,5 +229,12 @@ public class MathManagerImpl implements MathManager {
             logger.error("Error a llistarInstituds()", e);
             throw e;
         }
+    }
+
+    public void clear() {
+        this.alumnes.clear();
+        this.instituds.clear();
+        this.operacions.clear();
+        this.operacionsPerInstitud.clear();
     }
 }
