@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.swagger.models.auth.In;
 import org.apache.log4j.Logger;
 
 public class MathManagerImpl implements MathManager {
@@ -17,6 +19,7 @@ public class MathManagerImpl implements MathManager {
     protected List<Alumne> alumnes;
     protected List<Institud> instituds;
     protected Queue<OperacioMatematica> operacions;
+    protected List<OperacioMatematica> historialOperacions;
     protected HashMap<String, Integer> operacionsPerInstitud;
     protected double resultat;
 
@@ -28,6 +31,7 @@ public class MathManagerImpl implements MathManager {
         this.alumnes = new LinkedList<>();
         this.instituds = new LinkedList<>();
         this.operacions = new LinkedList<>();
+        this.historialOperacions = new LinkedList<>();
         this.operacionsPerInstitud = new HashMap<>();
 
         logger.info("Fi constructor MathManagerImpl(). alumnes=" + alumnes.size()
@@ -118,17 +122,14 @@ public class MathManagerImpl implements MathManager {
 
     // Requerir Operacio Matematica
     public OperacioMatematica requerirOperacioMatematica(String id, String expresioRPN, String alumneId, String institudId, boolean processada) {
-        logger.info("Inici requerirOperacioMatematica(id=" + id
-                + ", expresioRPN=" + expresioRPN
-                + ", alumneId=" + alumneId
-                + ", institudId=" + institudId
-                + ", processada=" + processada + ")");
+        logger.info("Inici requerirOperacioMatematica(id=" + id + ", expresioRPN=" + expresioRPN + ", alumneId=" + alumneId + ", institudId=" + institudId + ", processada=" + processada + ")");
 
         try {
             processada = false;
             resultat = 0;
             OperacioMatematica operacio = new OperacioMatematica(id, expresioRPN, resultat, alumneId, institudId, processada);
             this.operacions.add(operacio);
+            this.historialOperacions.add(operacio);
 
             logger.info("Fi requerirOperacioMatematica(). operacio afegida amb id=" + operacio.getId());
             return operacio;
@@ -162,11 +163,10 @@ public class MathManagerImpl implements MathManager {
 
             operacionsPerInstitud.put(institudId, operacionsPerInstitud.get(institudId) + 1);
 
+            operacio.setResultat(resultat);
             operacio.setProcessada(true);
 
-            logger.info("Fi procesarOperacioMatematica(). operacio id=" + operacio.getId()
-                    + ", resultat=" + resultat
-                    + ", processada=" + operacio.isProcessada());
+            logger.info("Fi procesarOperacioMatematica(). operacio id=" + operacio.getId() + ", resultat=" + resultat + ", processada=" + operacio.isProcessada());
 
             return operacio;
         } catch (Exception e) {
@@ -181,7 +181,7 @@ public class MathManagerImpl implements MathManager {
 
         try {
             List<OperacioMatematica> operacionsPerInstitut = new LinkedList<>();
-            for (OperacioMatematica o : this.operacions) {
+            for (OperacioMatematica o : this.historialOperacions) {
                 if (o.getInstitutId().equals(institutId)) {
                     operacionsPerInstitut.add(o);
                 }
@@ -201,7 +201,7 @@ public class MathManagerImpl implements MathManager {
 
         try {
             List<OperacioMatematica> operacionsPerAlumne = new LinkedList<>();
-            for (OperacioMatematica o : this.operacions) {
+            for (OperacioMatematica o : this.historialOperacions) {
                 if (o.getAlumneId().equals(alumneId)) {
                     operacionsPerAlumne.add(o);
                 }
@@ -224,6 +224,8 @@ public class MathManagerImpl implements MathManager {
             list.sort((a, b) -> b.getValue().compareTo(a.getValue()));
 
             logger.info("Fi llistarInstituds(). mida=" + list.size());
+
+            logger.info("Id del Institut, Nombre d operacions => " + list);
             return list;
         } catch (Exception e) {
             logger.error("Error a llistarInstituds()", e);
